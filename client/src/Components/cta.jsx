@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function CTA() {
+export default function cta() {
   return (
     <section className="py-24 px-8">
       <div className="max-w-4xl mx-auto text-center">

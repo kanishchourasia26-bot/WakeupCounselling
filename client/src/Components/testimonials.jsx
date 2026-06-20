@@ -1,4 +1,4 @@
-export default function Testimonials() {
+export default function testimonials() {
   const testimonials = [
     {
       name: "Student",

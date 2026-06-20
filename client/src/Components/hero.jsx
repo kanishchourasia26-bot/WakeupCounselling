@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function hero() {
   return (
     <section className="min-h-screen flex items-center justify-center px-8">
       <div className="max-w-3xl text-center">
