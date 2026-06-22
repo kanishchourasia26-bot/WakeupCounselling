@@ -1,4 +1,4 @@
-export default function whycounselling() {
+export default function WhyCounselling() {
   return (
     <section className="py-20 px-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
