@@ -7,6 +7,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import BookAppointment from "./pages/BookAppointment";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/book-appointment" element={<BookAppointment />} />
       </Routes>
+       <Footer />
     </BrowserRouter>
   );
 }
