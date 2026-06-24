@@ -2,40 +2,45 @@ export default function Testimonials() {
   const testimonials = [
     {
       name: "Student",
-      feedback:
-        "The counselling sessions helped me gain clarity about my career path and boosted my confidence.",
+      review:
+        "The counselling sessions helped me gain confidence and clarity about my future career path.",
     },
     {
       name: "Parent",
-      feedback:
-        "The guidance provided practical solutions and improved communication within our family.",
+      review:
+        "Professional guidance and a supportive approach helped our family navigate difficult challenges.",
     },
     {
       name: "Working Professional",
-      feedback:
-        "I learned effective ways to manage stress and maintain a healthier work-life balance.",
+      review:
+        "I learned practical strategies to manage stress and improve my overall well-being.",
     },
   ];
 
   return (
-    <section className="py-20 px-8 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 px-6 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+
         <h2 className="text-4xl font-bold text-center mb-4">
-          What People Say
+          What Our Clients Say
         </h2>
 
         <p className="text-center text-gray-600 mb-12">
-          Experiences shared by individuals who have benefited from counselling.
+          Real experiences from people we have helped.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl shadow-lg"
+              className="bg-white p-8 rounded-2xl shadow-lg"
             >
-              <p className="text-gray-600 mb-4">
-                "{item.feedback}"
+              <div className="text-yellow-500 text-xl mb-4">
+                ★★★★★
+              </div>
+
+              <p className="text-gray-600 mb-6">
+                "{item.review}"
               </p>
 
               <h3 className="font-semibold">
@@ -44,6 +49,7 @@ export default function Testimonials() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

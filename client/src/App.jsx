@@ -9,6 +9,7 @@ import BookAppointment from "./pages/BookAppointment";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/book-appointment" element={<BookAppointment />} />
+      
       </Routes>
        <Footer />
     </BrowserRouter>
