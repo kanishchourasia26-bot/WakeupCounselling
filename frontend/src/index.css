@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-gray-800 bg-gray-50 antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-teal-700 font-medium py-2.5 px-6 rounded-lg border-2 border-teal-600 transition-all duration-200;
+  }
+  .btn-accent {
+    @apply bg-accent-500 hover:bg-accent-600 text-gray-900 font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 shadow-sm;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+  .input-field {
+    @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all duration-200;
+  }
+  .section-heading {
+    @apply text-center mb-12;
+  }
+  .section-heading h3 {
+    @apply text-teal-600 font-medium text-sm uppercase tracking-wider mb-2;
+  }
+  .section-heading h2 {
+    @apply text-3xl md:text-4xl font-bold text-gray-900;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
