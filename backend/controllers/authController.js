@@ -2,6 +2,14 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/helpers');
 const crypto = require('crypto');
 
+// Helper function to set secure cookie options
+const getCookieOptions = () => ({
+  expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+  httpOnly: true, // Makes token invisible to frontend JavaScript (prevents XSS)
+  secure: process.env.NODE_ENV === 'production', // Use HTTPS only in production
+  sameSite: 'strict' // Prevents CSRF attacks
+});
+
 exports.register = async (req, res) => {
   try {
     const { fullName, email, password, phone, gender, dateOfBirth, address, occupation, emergencyContact } = req.body;
@@ -28,7 +36,11 @@ exports.register = async (req, res) => {
     });
 
     const token = generateToken(user._id);
-    res.status(201).json({ success: true, token, user });
+    
+    // Attach token as an httpOnly cookie
+    res.status(201)
+      .cookie('token', token, getCookieOptions())
+      .json({ success: true, user });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -38,15 +50,35 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+    
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
+    
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
+    
     const token = generateToken(user._id);
-    res.json({ success: true, token, user });
+    
+    // Attach token as an httpOnly cookie
+    res.status(200)
+      .cookie('token', token, getCookieOptions())
+      .json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// NEW: Logout function to clear the cookie
+exports.logout = async (req, res) => {
+  try {
+    res.cookie('token', 'none', {
+      expires: new Date(Date.now() + 10 * 1000), // Expires immediately
+      httpOnly: true
+    });
+    res.status(200).json({ success: true, message: 'User logged out successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
