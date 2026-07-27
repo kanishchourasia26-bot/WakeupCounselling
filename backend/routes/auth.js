@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const rateLimit = require('express-rate-limit');
-const ctrl = require('../controllers/authController');
+const authController = require('../controllers/authController');
 const { protect, admin } = require('../middleware/auth');
 const { upload } = require('../middleware/upload'); 
 
@@ -18,20 +18,29 @@ const authLimiter = rateLimit({
 });
 
 // Apply the authLimiter specifically to login and register
-router.post('/register', authLimiter, ctrl.register);
-router.post('/login', authLimiter, ctrl.login);
-router.post('/logout', ctrl.logout);
+router.post('/register', authLimiter, authController.register);
+router.post('/login', authLimiter, authController.login);
+router.post('/logout', authController.logout);
 
 // Protected user routes
-router.get('/me', protect, ctrl.getMe);
-router.put('/profile', protect, upload('profiles').single('profileImage'), ctrl.updateProfile);
-router.post('/change-password', protect, ctrl.changePassword);
+router.get('/me', protect, authController.getMe);
+router.put('/profile', protect, upload('profiles').single('profileImage'), authController.updateProfile);
+router.post('/change-password', protect, authController.changePassword);
 
 // Password Reset Flow
-router.post('/forgot-password', ctrl.forgotPassword);
-router.post('/reset-password', ctrl.resetPassword);
+router.post('/forgot-password', authController.forgotPassword);
+router.post('/reset-password', authController.resetPassword);
 
-// Protected admin routes
-router.get('/users', protect, admin, ctrl.getAllUsers);
+// ==========================================
+// ADMIN CLIENT MANAGEMENT ROUTES (Protected)
+// ==========================================
+router.get('/admin/users/:id/details', protect, admin, authController.getUserDetailsForAdmin);
+router.put('/admin/users/:id/notes', protect, admin, authController.updateCounselorNotes);
+router.post('/admin/users/:id/resources', protect, admin, authController.addClientResource);
+router.delete('/admin/users/:id/resources/:resourceId', protect, admin, authController.deleteClientResource);
+router.delete('/admin/users/:id', protect, admin, authController.deleteClient);
+
+// Protected admin general routes
+router.get('/users', protect, admin, authController.getAllUsers);
 
 module.exports = router;

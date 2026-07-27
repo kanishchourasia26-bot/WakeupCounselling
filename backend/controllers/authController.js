@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const { generateToken } = require('../utils/helpers');
 const crypto = require('crypto');
-
+const Booking = require('../models/Booking'); 
+// Agar Test model bhi hai toh usko bhi import kar lena: const Test = require('../models/Test');
 // Helper function to set secure cookie options
 const getCookieOptions = () => ({
   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
@@ -168,5 +169,85 @@ exports.getAllUsers = async (req, res) => {
     res.json({ success: true, users });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+// ==========================================
+// ADMIN: CLIENT MANAGEMENT FUNCTIONS
+// ==========================================
+
+// 1. Get specific user details along with their bookings
+exports.getUserDetailsForAdmin = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Fetch user's bookings
+    const bookings = await Booking.find({ userId: req.params.id }).sort({ createdAt: -1 });
+    
+    // Agar tests ka feature chal raha hai toh ye line use karein:
+    // const tests = await Test.find({ userId: req.params.id });
+
+    res.json({
+      user,
+      bookings,
+      tests: [], // Abhi ke liye empty bhej rahe hain
+      resources: user.resources || []
+    });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// 2. Save/Update Counselor Notes
+exports.updateCounselorNotes = async (req, res) => {
+  try {
+    const { notes } = req.body;
+    await User.findByIdAndUpdate(req.params.id, { counselorNotes: notes });
+    res.json({ message: 'Notes saved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to save notes' });
+  }
+};
+
+// 3. Add Individual Resource
+exports.addClientResource = async (req, res) => {
+  try {
+    const { title, link, description } = req.body;
+    const user = await User.findById(req.params.id);
+    
+    user.resources.push({ title, link, description });
+    await user.save();
+    
+    res.json({ message: 'Resource assigned successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to assign resource' });
+  }
+};
+
+// 4. Delete Individual Resource
+exports.deleteClientResource = async (req, res) => {
+  try {
+    const { id, resourceId } = req.params;
+    const user = await User.findById(id);
+    
+    user.resources = user.resources.filter(r => r._id.toString() !== resourceId);
+    await user.save();
+    
+    res.json({ message: 'Resource removed successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to remove resource' });
+  }
+};
+
+// 5. Delete Client Completely
+exports.deleteClient = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    // Optional: Delete their bookings too
+    // await Booking.deleteMany({ userId: req.params.id });
+    res.json({ message: 'Client deleted permanently' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete client' });
   }
 };

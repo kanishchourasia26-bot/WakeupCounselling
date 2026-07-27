@@ -15,7 +15,21 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   resetPasswordToken: { type: String },
   resetPasswordExpire: { type: Date },
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+
+  // 👇 NAYI FIELDS YAHAN ADD KI GAYI HAIN (Admin Client Management ke liye) 👇
+  counselorNotes: { 
+    type: String, 
+    default: '' 
+  },
+  resources: [{
+    title: { type: String, required: true },
+    link: { type: String, required: true },
+    description: { type: String, default: '' },
+    assignedAt: { type: Date, default: Date.now }
+  }]
+  // 👆 ------------------------------------------------------------------ 👆
+
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {

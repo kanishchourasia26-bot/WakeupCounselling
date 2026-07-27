@@ -93,7 +93,9 @@ export default function AdminContent() {
     formData.append('description', galleryForm.description);
 
     try {
-      await API.post('/content/gallery', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      // 👇 Galti yahan thi, maine API call theek kar di hai (bina headers ke)
+      await API.post('/content/gallery', formData);
+      
       toast.success('Image added to gallery!');
       setShowGalleryForm(false);
       setGalleryForm({ title: '', category: '', description: '' });
@@ -102,7 +104,8 @@ export default function AdminContent() {
       // Refresh gallery
       const r = await API.get('/content/gallery');
       setGalleryItems(r.data.items || []);
-    } catch {
+    } catch (error) {
+      console.error("Upload error:", error);
       toast.error('Failed to upload image.');
     } finally {
       setIsSubmitting(false);
@@ -280,9 +283,12 @@ export default function AdminContent() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {galleryItems.map(item => (
               <div key={item._id} className="card overflow-hidden relative group rounded-xl shadow-sm border border-gray-100 bg-white">
+                
+                {/* 👇 4TH STEP YAHAN KIYA HAI: {`/${item.image}`} hata kar {item.image} kar diya */}
                 <div className="h-40 bg-gray-200">
-                  <img src={`/${item.image}`} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                 </div>
+                
                 <div className="p-3 bg-white">
                   <p className="font-semibold text-sm text-gray-900 truncate" title={item.title}>{item.title}</p>
                   <p className="text-xs text-teal-600 mt-1 uppercase tracking-wider font-medium">{item.category || 'General'}</p>

@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { FiHome, FiCalendar, FiUser, FiFileText, FiBell, FiBookOpen, FiMessageSquare, FiLogOut, FiChevronRight } from 'react-icons/fi';
 
@@ -10,7 +10,18 @@ export default function DashboardLayout() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleLogout = () => { logout(); navigate('/'); };
+  // 🚀 THE SAFE FIX: useEffect se redirect karo taaki React crash na ho
+  useEffect(() => {
+    // Agar user admin hai, toh background me turant redirect kar do
+    if (user && user.role === 'admin') {
+      navigate('/admin', { replace: true });
+    }
+  }, [user, navigate]);
+
+  const handleLogout = () => { 
+    logout(); 
+    navigate('/'); 
+  };
 
   const links = [
     { to: '/dashboard', icon: FiHome, label: 'Dashboard' },
@@ -21,6 +32,16 @@ export default function DashboardLayout() {
     { to: '/dashboard/feedback', icon: FiMessageSquare, label: 'Feedback' },
     { to: '/dashboard/profile', icon: FiUser, label: 'My Profile' }
   ];
+
+  // Agar admin galti se is page par aaya hai, toh jab tak useEffect usko bhejta hai
+  // tab tak khali screen (null) dikhao, taaki normal user dashboard flash na ho
+  if (user && user.role === 'admin') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -45,11 +66,11 @@ export default function DashboardLayout() {
           {/* User Card */}
           <div className="flex items-center gap-3 px-3 py-3 mb-6 bg-gray-800 rounded-lg">
             <div className="w-10 h-10 shrink-0 bg-teal-600 rounded-full flex items-center justify-center text-white font-semibold">
-              {user?.fullName?.charAt(0)?.toUpperCase()}
+              {user?.fullName?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="min-w-0">
               <p className="font-medium text-white text-sm truncate leading-tight">
-                {user?.fullName}
+                {user?.fullName || 'User'}
               </p>
               <p className="text-xs text-gray-400 truncate mt-0.5">{user?.email}</p>
             </div>
@@ -120,7 +141,7 @@ export default function DashboardLayout() {
             <HiMenu size={24} />
           </button>
           <h1 className="font-heading font-semibold text-gray-900 truncate">
-            Welcome, {user?.fullName?.split(' ')[0]}
+            Welcome, {user?.fullName ? user.fullName.split(' ')[0] : 'Guest'}
           </h1>
           <div className="flex items-center gap-3 shrink-0">
             <Link

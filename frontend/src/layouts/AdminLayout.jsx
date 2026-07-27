@@ -18,7 +18,6 @@ export default function AdminLayout() {
     { to: '/admin/slots', icon: FiCalendar, label: 'Manage Slots' },
     { to: '/admin/users', icon: FiUsers, label: 'Users' },
     { to: '/admin/blogs', icon: FiFileText, label: 'Blogs' },
-    { to: '/admin/resources', icon: FiBookOpen, label: 'Resources' },
     { to: '/admin/content', icon: FiSettings, label: 'Site Content' },
     { to: '/admin/feedback', icon: FiMessageSquare, label: 'Feedback' }
   ];

@@ -4,6 +4,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import PublicLayout from './layouts/PublicLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 import AdminLayout from './layouts/AdminLayout';
+
+// Public Pages
 import Home from './pages/public/Home';
 import About from './pages/public/About';
 import Mission from './pages/public/Mission';
@@ -14,10 +16,14 @@ import Workshops from './pages/public/Workshops';
 import WorkshopDetail from './pages/public/WorkshopDetail';
 import Gallery from './pages/public/Gallery';
 import Events from './pages/public/Events';
+
+// Auth Pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+
+// User Dashboard Pages
 import UserDashboard from './pages/user/UserDashboard';
 import UserProfile from './pages/user/UserProfile';
 import UserBookings from './pages/user/UserBookings';
@@ -29,15 +35,18 @@ import TestResult from './pages/user/TestResult';
 import UserNotifications from './pages/user/UserNotifications';
 import UserResources from './pages/user/UserResources';
 import UserFeedback from './pages/user/UserFeedback';
+
+// Admin Dashboard Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminBookings from './pages/admin/AdminBookings';
 import AdminBookingDetail from './pages/admin/AdminBookingDetail';
 import AdminSlots from './pages/admin/AdminSlots';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminUserDetail from './pages/admin/AdminUserDetail'; // <-- Naya Client Manage page
 import AdminBlogs from './pages/admin/AdminBlogs';
-import AdminResources from './pages/admin/AdminResources';
 import AdminContent from './pages/admin/AdminContent';
 import AdminFeedback from './pages/admin/AdminFeedback';
+// Note: AdminResources hata diya gaya hai jaisa aapne suggest kiya tha
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user, loading } = useAuth();
@@ -62,10 +71,13 @@ function AppRoutes() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/events" element={<Events />} />
       </Route>
+
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+      {/* NORMAL USER ROUTES */}
       <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
         <Route index element={<UserDashboard />} />
         <Route path="profile" element={<UserProfile />} />
@@ -79,16 +91,22 @@ function AppRoutes() {
         <Route path="resources" element={<UserResources />} />
         <Route path="feedback" element={<UserFeedback />} />
       </Route>
+
+      {/* ADMIN ROUTES */}
       <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
         <Route index element={<AdminDashboard />} />
         <Route path="bookings" element={<AdminBookings />} />
         <Route path="bookings/:id" element={<AdminBookingDetail />} />
         <Route path="slots" element={<AdminSlots />} />
         <Route path="users" element={<AdminUsers />} />
+        
+        {/* Yahan naya route add kiya hai individual user details ke liye */}
+        <Route path="users/:id" element={<AdminUserDetail />} /> 
+        
         <Route path="blogs" element={<AdminBlogs />} />
-        <Route path="resources" element={<AdminResources />} />
         <Route path="content" element={<AdminContent />} />
         <Route path="feedback" element={<AdminFeedback />} />
+        <Route path="users/:id" element={<AdminUserDetail />} />
       </Route>
     </Routes>
   );

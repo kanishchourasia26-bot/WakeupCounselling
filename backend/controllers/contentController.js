@@ -154,17 +154,6 @@ exports.getGallery = async (req, res) => {
   }
 };
 
-exports.createGalleryItem = async (req, res) => {
-  try {
-    const data = { ...req.body };
-    if (req.file) data.image = req.file.path;
-    const item = await Gallery.create(data);
-    res.status(201).json({ success: true, item });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 exports.deleteGalleryItem = async (req, res) => {
   try {
     await Gallery.findByIdAndDelete(req.params.id);
