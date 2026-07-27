@@ -4,6 +4,7 @@ import API from '../../services/api';
 
 export default function UserBookings() {
   const [bookings, setBookings] = useState([]);
+  
   useEffect(() => {
     API.get('/bookings/my').then(r => setBookings(r.data.bookings || [])).catch(() => {});
   }, []);

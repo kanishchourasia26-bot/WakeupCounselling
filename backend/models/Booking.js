@@ -37,3 +37,6 @@ bookingSchema.pre('save', function (next) {
   }
   next();
 });
+
+// YEH LINE MISSING THI! 👇
+module.exports = mongoose.model('Booking', bookingSchema);

@@ -174,78 +174,102 @@ export default function PublicLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
+  <footer className="bg-gray-900 text-white">
+  <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="flex flex-col lg:flex-row justify-between gap-10">
 
-      {/* Footer */}
-    {/* Footer */}
-<footer className="bg-gray-900 text-white">
-  <div className="container mx-auto px-4 py-10">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      {/* Company */}
-      <div>
-        <div className="mb-4">
+      {/* COLUMN 1: Company Info (Center Aligned + Right Border) */}
+      <div className="w-full lg:w-[30%] flex flex-col items-center text-center lg:border-r border-gray-700 pr-0 lg:pr-8">
+        
+        {/* Logo (White wrapper hata diya gaya hai) */}
+        <div className="mb-6 flex justify-center">
           <img
             src="/images/logo.png"
             alt="Wake Up Counselling"
-            className="h-12 w-auto object-contain"
+            className="h-20 w-auto object-contain"
           />
         </div>
 
-        <p className="text-gray-400 text-sm leading-6 mb-4">
+        <p className="text-gray-400 text-sm leading-6 mb-6">
           Professional counseling services in Jabalpur dedicated to
           mental health awareness, emotional well-being and
           psychological support.
         </p>
 
+        {/* Social Icons */}
         <div className="flex gap-3">
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
+          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaFacebookF size={13} />
           </a>
-
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
+          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaTwitter size={13} />
           </a>
-
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
+          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaInstagram size={13} />
           </a>
-
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
+          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaLinkedinIn size={13} />
           </a>
         </div>
       </div>
 
-      {/* Quick Links */}
-      <div>
-        <h3 className="font-heading font-semibold text-lg mb-3">
-          Quick Links
-        </h3>
+      {/* COLUMN 2 & 3: Links */}
+      <div className="w-full lg:w-[35%] flex justify-between sm:justify-around gap-4 px-0 lg:px-4">
+        
+        {/* Quick Links */}
+        <div>
+          <h3 className="font-heading font-semibold text-lg mb-5 inline-block border-b-2 border-teal-500 pb-1">
+            Quick Links
+          </h3>
+          <ul className="space-y-3">
+            {[
+              { to: "/", l: "Home" },
+              { to: "/about", l: "About Us" },
+              { to: "/workshops", l: "Workshops" },
+              { to: "/gallery", l: "Gallery" },
+              { to: "/contact", l: "Contact Us" },
+            ].map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  className="text-gray-400 hover:text-teal-400 text-sm transition"
+                >
+                  {item.l}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <ul className="space-y-2">
-          {[
-            { to: "/", l: "Home" },
-            { to: "/about", l: "About Us" },
-            { to: "/workshops", l: "Workshops" },
-            { to: "/gallery", l: "Gallery" },
-            { to: "/contact", l: "Contact Us" },
-          ].map((item) => (
-            <li key={item.to}>
-              <Link
-                to={item.to}
-                className="text-gray-400 hover:text-teal-400 text-sm transition"
-              >
-                {item.l}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* Explore */}
+        <div>
+          <h3 className="font-heading font-semibold text-lg mb-5 inline-block border-b-2 border-teal-500 pb-1">
+            Explore
+          </h3>
+          <ul className="space-y-3">
+            {[
+              { to: "/services", l: "Services" },
+              { to: "/faq", l: "FAQs" },
+              { to: "/privacy", l: "Privacy Policy" },
+              { to: "/terms", l: "Terms & Conditions" },
+            ].map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  className="text-gray-400 hover:text-teal-400 text-sm transition"
+                >
+                  {item.l}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {/* Map (replaced Contact Info) */}
-      <div>
-        <h3 className="font-heading font-semibold text-lg mb-3">
-          Find Us
+      {/* COLUMN 4: Map */}
+      <div className="w-full lg:w-[30%]">
+        <h3 className="font-heading font-semibold text-lg mb-5 inline-block border-b-2 border-teal-500 pb-1">
+          Locate on Map
         </h3>
 
         <div className="w-full h-48 rounded-lg overflow-hidden border border-gray-800">
@@ -265,10 +289,11 @@ export default function PublicLayout() {
     </div>
   </div>
 
-  <div className="border-t border-gray-800">
-    <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+  {/* Bottom Bar */}
+  <div className="border-t border-gray-800 bg-gray-950/30">
+    <div className="container mx-auto px-4 py-6 flex flex-col items-center justify-center text-center text-sm text-gray-500 gap-1.5">
       <p>© 2025 Wake Up Counselling. All Rights Reserved.</p>
-      <p className="mt-2 md:mt-0">Professional Mental Health Services</p>
+      <p>Professional Mental Health Services</p>
     </div>
   </div>
 </footer>

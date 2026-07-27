@@ -26,6 +26,33 @@ exports.submitTest = async (req, res) => {
     const { testId, answers } = req.body;
     const test = await PsychologicalTest.findById(testId);
     if (!test) return res.status(404).json({ success: false, message: 'Test not found' });
+
+    // ==========================================
+    // NEW: 1-Month Cooldown Check
+    // ==========================================
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const lastAttempt = await TestResult.findOne({
+      userId: req.user._id,
+      testId: testId
+    }).sort({ createdAt: -1 });
+
+    if (lastAttempt && lastAttempt.createdAt > thirtyDaysAgo) {
+      const nextAvailableDate = new Date(lastAttempt.createdAt);
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 30);
+
+      const formattedDate = nextAvailableDate.toLocaleDateString('en-IN', { 
+        weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' 
+      });
+
+      return res.status(403).json({ 
+        success: false, 
+        message: `Cooldown active: You can only take this test once a month. You can retake it on ${formattedDate}.` 
+      });
+    }
+    // ==========================================
+
     let totalScore = 0;
     const scoredAnswers = answers.map((ans, idx) => {
       const question = test.questions[idx];
@@ -34,6 +61,7 @@ exports.submitTest = async (req, res) => {
       totalScore += score;
       return { ...ans, score };
     });
+
     let result = 'Normal';
     let resultDescription = '';
     for (const rule of test.scoringRules) {
@@ -43,6 +71,7 @@ exports.submitTest = async (req, res) => {
         break;
       }
     }
+
     const testResult = await TestResult.create({
       userId: req.user._id,
       testId,
@@ -51,6 +80,7 @@ exports.submitTest = async (req, res) => {
       result,
       resultDescription
     });
+
     await Notification.create({
       userId: req.user._id,
       title: 'Test Completed',
@@ -58,6 +88,7 @@ exports.submitTest = async (req, res) => {
       type: 'test_completed',
       relatedId: testResult._id
     });
+
     res.status(201).json({ success: true, result: testResult });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

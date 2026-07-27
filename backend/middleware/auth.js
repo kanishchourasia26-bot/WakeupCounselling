@@ -5,11 +5,11 @@ exports.protect = async (req, res, next) => {
   try {
     let token;
     
-    // NEW: Check for the token in the httpOnly cookies first
+    // Check for the token in the httpOnly cookies first
     if (req.cookies && req.cookies.token) {
       token = req.cookies.token;
     } 
-    // Fallback: Check the Authorization header (useful for mobile apps or Postman testing)
+    // Fallback: Check the Authorization header
     else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }

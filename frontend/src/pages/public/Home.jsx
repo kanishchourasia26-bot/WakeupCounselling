@@ -40,128 +40,106 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero */}
-     {/* Hero */}
-<section
-  className="relative text-white overflow-hidden bg-cover bg-center bg-no-repeat"
-  style={{
-    backgroundImage: `
-      linear-gradient(
-        rgba(17, 24, 39, 0.55),
-        rgba(17, 24, 39, 0.55)
-      ),
-      url('/images/hero.jpg')
-    `,
-  }}
->
-  <div className="container mx-auto px-10 py-20 md:py-24 relative z-10">
-   <div className="max-w-3xl">
-     
+  {/* Hero */}
+  {/* Hero */}
+    <section
+      className="relative text-white overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `
+          linear-gradient(
+            rgba(17, 24, 39, 0.55),
+            rgba(17, 24, 39, 0.55)
+          ),
+          url('/images/hero.jpg')
+        `,
+      }}
+    >
+      <div className="container mx-auto px-10 py-20 md:py-24 relative z-10">
+        <div className="max-w-3xl">
+          
+          {/* 1. Top text with the vertical orange bar */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-1.5 h-14 sm:h-12 bg-amber-500 rounded-sm"></div>
+            <p className="text-white text-base md:text-xl font-medium leading-snug tracking-wide">
+              Wake Up Mental Health And Psychology <br className="hidden sm:block" />
+              Counseling Center Jabalpur
+            </p>
+          </div>
 
-      <h1 className="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">
-        Your Journey to{" "}
-        <span className="text-amber-400">Mental Wellness</span> Starts Here
-      </h1>
+          {/* 2. Main Heading (Uppercase and Extrabold) */}
+          <h1 className="font-heading text-4xl md:text-[56px] font-extrabold uppercase leading-tight tracking-wide mb-10">
+            Giving Counseling <br />
+            Services From 2015
+          </h1>
 
-      <p className="text-lg text-gray-200 mb-8 max-w-2xl leading-relaxed">
-        Professional counseling services in Jabalpur dedicated to helping you
-        navigate life's challenges with compassion, expertise, and proven
-        therapeutic approaches.
-      </p>
+          {/* 3. Buttons */}
+          <div className="flex flex-wrap gap-4">
+            <Link
+              to="/about"
+              className="inline-flex items-center justify-center bg-white px-8 py-3.5 rounded text-base font-bold text-gray-900 shadow-md transition-colors hover:bg-gray-100"
+            >
+              Read More
+            </Link>
 
-      <div className="flex flex-wrap gap-4">
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 bg-amber-400 px-8 py-3 rounded-lg text-base font-semibold text-gray-900 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-300 hover:shadow-xl"
-        >
-          Book Appointment
-          <HiArrowRight className="text-lg" />
-        </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center bg-amber-500 px-8 py-3.5 rounded text-base font-bold text-white shadow-md transition-colors hover:bg-amber-600"
+            >
+              Contact Us
+            </Link>
+          </div>
 
-        <Link
-          to="/services"
-          className="inline-flex items-center gap-2 border-2 border-white bg-white/10 backdrop-blur-sm px-8 py-3 rounded-lg text-base font-semibold text-white transition-all duration-200 hover:bg-white hover:text-gray-900 hover:-translate-y-0.5 hover:shadow-xl"
-        >
-          Our Services
-          <HiArrowRight className="text-lg" />
-        </Link>
+        </div>
       </div>
-    </div>
-  </div>
-
-  {/* Bottom Wave */}
-  <div className="absolute bottom-0 left-0 right-0">
-    <svg viewBox="0 0 1440 100" fill="none">
-      <path
-        d="M0,50 C360,100 720,0 1440,50 L1440,100 L0,100 Z"
-        fill="#111827"
-      />
-    </svg>
-  </div>
-
-</section>
+    </section>
 
    {/* Info Panels */}
-<section className="py-24 bg-[#F8F9FC]">
-  <div className="container mx-auto px-4">
-
+<section className="py-24 bg-white">
+  <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+    
+    {/* Section Header */}
     <div className="text-center max-w-3xl mx-auto mb-16">
-
-      <div className="flex justify-center items-center gap-3 mb-4">
-     
-
-      
-      </div>
-
-      <h2 className="font-heading text-4xl md:text-5xl font-bold text-[#2F3768]">
+      <h2 className="font-heading text-4xl md:text-5xl font-extrabold text-[#2F3768] leading-tight">
         Supporting Your Mental Wellness
       </h2>
-
-      <p className="mt-5 text-gray-600 text-lg leading-8">
+      <p className="mt-6 text-gray-600 text-lg leading-relaxed">
         We provide compassionate psychological care, emotional support and
         professional guidance tailored to every individual's needs.
       </p>
-
     </div>
 
+    {/* NAYE BOXES (Image ke design ke according) */}
     <div className="grid md:grid-cols-3 gap-8">
-
       {panels.map((panel, index) => {
-
         const Icon = panel.icon;
 
         return (
-
           <div
             key={index}
-            className="group bg-white rounded-3xl border border-gray-100 p-10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+            // Sharp corners (no rounded class), soft shadow, centered content
+            className="relative bg-white px-8 py-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300"
           >
+            {/* Left Side ki Orange Accent Line (Jo top se aadhi height tak aati hai) */}
+            <div className="absolute top-0 left-0 w-1.5 h-[55%] bg-amber-500"></div>
 
-            <div className="w-18 h-18 rounded-2xl bg-amber-100 flex items-center justify-center mb-8 group-hover:bg-amber-400 transition">
+            {/* Icon - Orange Color, Bina kisi background ke, Size bada kar diya hai */}
+            <Icon
+              size={56}
+              className="text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300"
+            />
 
-              <Icon
-                size={32}
-                className="text-[#2F3768] group-hover:text-white transition"
-              />
-
-            </div>
-
-            <h3 className="font-heading text-2xl font-bold text-[#2F3768] mb-4">
+            {/* Title */}
+            <h3 className="font-heading text-xl md:text-2xl font-bold text-[#2F3768] mb-4">
               {panel.data?.title || "Loading..."}
             </h3>
 
-            <div className="w-12 h-1 bg-amber-400 rounded-full mb-5"></div>
-
-            <p className="text-gray-600 leading-8">
+            {/* Description Text */}
+            <p className="text-gray-600 leading-relaxed text-base">
               {panel.data?.body || ""}
             </p>
-
           </div>
-
         );
-
       })}
-
     </div>
 
   </div>
@@ -218,7 +196,7 @@ export default function Home() {
 
         {/* Main Image */}
         <img
-          src="/images/counselling.jpg"
+          src="/images/coun.jpg"
           alt="Counselling"
           className="absolute right-0 top-0 w-[78%] h-[430px] rounded-3xl object-cover shadow-2xl"
         />

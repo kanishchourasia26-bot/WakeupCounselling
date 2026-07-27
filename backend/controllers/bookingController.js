@@ -1,10 +1,26 @@
 const Booking = require('../models/Booking');
 const Notification = require('../models/Notification');
-
 exports.createBooking = async (req, res) => {
   try {
+    // ==========================================
+    // NEW: Check for existing Pending booking
+    // ==========================================
+    const existingPendingBooking = await Booking.findOne({
+      userId: req.user._id,
+      status: 'Pending'
+    });
+
+    if (existingPendingBooking) {
+      return res.status(400).json({
+        success: false,
+        message: 'Your one session is pending, wait for it to get approved.'
+      });
+    }
+    // ==========================================
+
     const bookingData = { ...req.body, userId: req.user._id };
     const booking = await Booking.create(bookingData);
+    
     await Notification.create({
       userId: req.user._id,
       title: 'Booking Submitted',
@@ -12,6 +28,7 @@ exports.createBooking = async (req, res) => {
       type: 'booking_submitted',
       relatedId: booking._id
     });
+    
     res.status(201).json({ success: true, booking });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
