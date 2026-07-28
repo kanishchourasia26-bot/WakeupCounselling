@@ -35,8 +35,9 @@ export default function Gallery() {
                   className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-white shadow-md hover:shadow-xl transition-all duration-300"
                   onClick={() => setLightbox(item)}
                 >
+                  {/* FIX 1: Removed / from src */}
                   <img 
-                    src={`/${item.image}`} 
+                    src={item.image} 
                     alt={item.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   />
@@ -82,8 +83,9 @@ export default function Gallery() {
 
             {/* Image Preview */}
             <div className="max-h-[60vh] bg-gray-950 flex items-center justify-center overflow-hidden">
+              {/* FIX 2: Removed / from src */}
               <img 
-                src={`/${lightbox.image}`} 
+                src={lightbox.image} 
                 alt={lightbox.title} 
                 className="w-full h-full object-contain max-h-[60vh]" 
               />

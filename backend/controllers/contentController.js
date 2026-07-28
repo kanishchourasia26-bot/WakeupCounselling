@@ -153,7 +153,33 @@ exports.getGallery = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+exports.createGalleryItem = async (req, res) => {
+  console.log("🚀 === GALLERY UPLOAD API HIT HUI ===");
+  console.log("📦 BODY DATA:", req.body);
+  console.log("🖼️ UPLOADED FILE:", req.file);
 
+  try {
+    const imageUrl = req.file ? req.file.path : ''; 
+
+    if (!imageUrl) {
+      console.log("❌ Error: Image URL nahi mila");
+      return res.status(400).json({ success: false, message: 'Image upload failed' });
+    }
+
+    const newItem = await Gallery.create({
+      title: req.body.title,
+      category: req.body.category,
+      description: req.body.description,
+      image: imageUrl
+    });
+
+    console.log("✅ SUCCESS! Database me save ho gaya:", newItem);
+    res.status(201).json({ success: true, item: newItem });
+  } catch (error) {
+    console.error("🔥 ASLI DATABASE ERROR:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 exports.deleteGalleryItem = async (req, res) => {
   try {
     await Gallery.findByIdAndDelete(req.params.id);

@@ -93,8 +93,12 @@ export default function AdminContent() {
     formData.append('description', galleryForm.description);
 
     try {
-      // 👇 Galti yahan thi, maine API call theek kar di hai (bina headers ke)
-      await API.post('/content/gallery', formData);
+      // 👇 YAHAN HAI FINAL FIX: Headers wapas laga diye taaki JSON ki jagah File format me data jaye
+      await API.post('/content/gallery', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       
       toast.success('Image added to gallery!');
       setShowGalleryForm(false);
@@ -284,7 +288,6 @@ export default function AdminContent() {
             {galleryItems.map(item => (
               <div key={item._id} className="card overflow-hidden relative group rounded-xl shadow-sm border border-gray-100 bg-white">
                 
-                {/* 👇 4TH STEP YAHAN KIYA HAI: {`/${item.image}`} hata kar {item.image} kar diya */}
                 <div className="h-40 bg-gray-200">
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                 </div>
