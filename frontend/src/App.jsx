@@ -42,11 +42,13 @@ import AdminBookings from './pages/admin/AdminBookings';
 import AdminBookingDetail from './pages/admin/AdminBookingDetail';
 import AdminSlots from './pages/admin/AdminSlots';
 import AdminUsers from './pages/admin/AdminUsers';
-import AdminUserDetail from './pages/admin/AdminUserDetail'; // <-- Naya Client Manage page
+import AdminUserDetail from './pages/admin/AdminUserDetail'; 
 import AdminBlogs from './pages/admin/AdminBlogs';
 import AdminContent from './pages/admin/AdminContent';
 import AdminFeedback from './pages/admin/AdminFeedback';
-// Note: AdminResources hata diya gaya hai jaisa aapne suggest kiya tha
+
+// 👇 NAYA COMPONENT IMPORT KIYA HAI (Dhyan rakhein path wahi ho jahan aapne file banayi hai)
+import ChatBot from './pages/public/ChatBot'; 
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user, loading } = useAuth();
@@ -99,14 +101,10 @@ function AppRoutes() {
         <Route path="bookings/:id" element={<AdminBookingDetail />} />
         <Route path="slots" element={<AdminSlots />} />
         <Route path="users" element={<AdminUsers />} />
-        
-        {/* Yahan naya route add kiya hai individual user details ke liye */}
         <Route path="users/:id" element={<AdminUserDetail />} /> 
-        
         <Route path="blogs" element={<AdminBlogs />} />
         <Route path="content" element={<AdminContent />} />
         <Route path="feedback" element={<AdminFeedback />} />
-        <Route path="users/:id" element={<AdminUserDetail />} />
       </Route>
     </Routes>
   );
@@ -118,6 +116,10 @@ export default function App() {
       <AuthProvider>
         <Toaster position="top-right" />
         <AppRoutes />
+        
+        {/* 👇 YAHAN ADD KIYA HAI CHATBOT 👇 */}
+        <ChatBot />
+
       </AuthProvider>
     </BrowserRouter>
   );

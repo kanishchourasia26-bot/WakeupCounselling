@@ -120,12 +120,12 @@ export default function Home() {
             className="relative bg-white px-8 py-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300"
           >
             {/* Left Side ki Orange Accent Line (Jo top se aadhi height tak aati hai) */}
-            <div className="absolute top-0 left-0 w-1.5 h-[55%] bg-amber-500"></div>
+            <div className="absolute top-0 left-0 w-1.5 h-[55%] bg-amber-400"></div>
 
             {/* Icon - Orange Color, Bina kisi background ke, Size bada kar diya hai */}
             <Icon
               size={56}
-              className="text-amber-500 mb-6 group-hover:scale-110 transition-transform duration-300"
+              className="text-amber-400 mb-6 group-hover:scale-110 transition-transform duration-300"
             />
 
             {/* Title */}

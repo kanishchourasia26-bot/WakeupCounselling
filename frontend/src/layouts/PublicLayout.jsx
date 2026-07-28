@@ -44,12 +44,12 @@ export default function PublicLayout() {
     <div className="flex items-center gap-8">
       <span className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
         <HiPhone className="text" />
-        +91 98765 43210
+        +91 8989203040
       </span>
 
       <span className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
         <HiMail className="text" />
-        info@wakeupcounseling.com
+        payalchourasia1979@gmail.com
       </span>
     </div>
 
@@ -198,16 +198,16 @@ export default function PublicLayout() {
 
         {/* Social Icons */}
         <div className="flex gap-3">
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
-            <FaFacebookF size={13} />
+          <a href="https://www.facebook.com/wakeupcounselingcentre/"className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
+            <FaFacebookF  size={13} />
           </a>
           <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaTwitter size={13} />
           </a>
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
+          <a href="https://www.instagram.com/wakeupcounsellingcentre_jbp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaInstagram size={13} />
           </a>
-          <a className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
+          <a href="https://in.linkedin.com/in/payal-chourasia-11a195260" className="w-8 h-8 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition cursor-pointer">
             <FaLinkedinIn size={13} />
           </a>
         </div>
@@ -292,16 +292,13 @@ export default function PublicLayout() {
   {/* Bottom Bar */}
   <div className="border-t border-gray-800 bg-gray-950/30">
     <div className="container mx-auto px-4 py-6 flex flex-col items-center justify-center text-center text-sm text-gray-500 gap-1.5">
-      <p>© 2025 Wake Up Counselling. All Rights Reserved.</p>
+      <p>© 2015 Wake Up Counselling Centre All Rights Reserved.</p>
       <p>Professional Mental Health Services</p>
     </div>
   </div>
 </footer>
 
-      {/* WhatsApp Button */}
-      <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
-        <FaWhatsapp size={28} className="text-white" />
-      </a>
+   
     </div>
   );
 }
