@@ -17,6 +17,11 @@ const authLimiter = rateLimit({
   legacyHeaders: false, 
 });
 
+// 👇 NAYE OTP VERIFICATION ROUTES (Rate limit ke saath) 👇
+router.post('/send-otp', authLimiter, authController.sendOtp);
+router.post('/verify-otp', authLimiter, authController.verifyOtp);
+// 👆 --------------------------------------------------- 👆
+
 // Apply the authLimiter specifically to login and register
 router.post('/register', authLimiter, authController.register);
 router.post('/login', authLimiter, authController.login);

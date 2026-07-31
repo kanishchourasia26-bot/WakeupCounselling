@@ -17,7 +17,20 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpire: { type: Date },
   isActive: { type: Boolean, default: true },
 
-  // 👇 NAYI FIELDS YAHAN ADD KI GAYI HAIN (Admin Client Management ke liye) 👇
+  // 👇 EMAIL OTP VERIFICATION FIELDS 👇
+  isVerified: { 
+    type: Boolean, 
+    default: false 
+  },
+  otp: { 
+    type: String 
+  },
+  otpExpires: { 
+    type: Date 
+  },
+  // 👆 ------------------------------- 👆
+
+  // 👇 Admin Client Management Fields 👇
   counselorNotes: { 
     type: String, 
     default: '' 
@@ -28,7 +41,7 @@ const userSchema = new mongoose.Schema({
     description: { type: String, default: '' },
     assignedAt: { type: Date, default: Date.now }
   }]
-  // 👆 ------------------------------------------------------------------ 👆
+  // 👆 -------------------------------- 👆
 
 }, { timestamps: true });
 
@@ -48,6 +61,9 @@ userSchema.methods.toJSON = function () {
   delete obj.password;
   delete obj.resetPasswordToken;
   delete obj.resetPasswordExpire;
+  // Security ke liye OTP fields ko bhi API response se hide kar diya
+  delete obj.otp;
+  delete obj.otpExpires;
   return obj;
 };
 

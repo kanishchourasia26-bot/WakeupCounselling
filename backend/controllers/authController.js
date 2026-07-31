@@ -2,7 +2,17 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/helpers');
 const crypto = require('crypto');
 const Booking = require('../models/Booking'); 
-// Agar Test model bhi hai toh usko bhi import kar lena: const Test = require('../models/Test');
+const nodemailer = require('nodemailer'); // 👈 Nodemailer import kiya
+
+// 👇 NODEMAILER TRANSPORTER SETUP 👇
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 // Helper function to set secure cookie options
 const getCookieOptions = () => ({
   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
@@ -11,6 +21,132 @@ const getCookieOptions = () => ({
   sameSite: 'strict' // Prevents CSRF attacks
 });
 
+// ========================================================
+// 1. NEW: SEND OTP (Email Verification ke liye)
+// ========================================================
+exports.sendOtp = async (req, res) => {
+  try {
+    const { fullName, email, password, phone, gender, dateOfBirth, address, occupation, emergencyContact } = req.body;
+
+    if (!fullName || !email || !password) {
+      return res.status(400).json({ success: false, message: 'Full name, email, and password are required' });
+    }
+
+    // Check karo agar user pehle se registered aur verified hai
+    let user = await User.findOne({ email });
+    if (user && user.isVerified) {
+      return res.status(400).json({ success: false, message: 'Email already registered and verified!' });
+    }
+
+    // 6 digit ka Random OTP Banao
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minute tak valid
+
+    // Agar unverified user pehle se hai toh details update karo, warna naya banao
+    if (user) {
+      user.fullName = fullName;
+      user.password = password; // pre('save') isko automatic hash kar dega
+      user.phone = phone || '';
+      user.gender = gender || '';
+      user.dateOfBirth = dateOfBirth || null;
+      user.address = address || '';
+      user.occupation = occupation || '';
+      user.emergencyContact = emergencyContact || '';
+      user.otp = otp;
+      user.otpExpires = otpExpires;
+      await user.save();
+    } else {
+      user = await User.create({
+        fullName,
+        email,
+        password, // pre('save') automatic hash karega
+        phone: phone || '',
+        gender: gender || '',
+        dateOfBirth: dateOfBirth || null,
+        address: address || '',
+        occupation: occupation || '',
+        emergencyContact: emergencyContact || '',
+        otp,
+        otpExpires,
+        isVerified: false
+      });
+    }
+
+    // Email par OTP bhejdo
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify Your Email - Wakeup Counseling",
+      html: `
+        <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+          <h2>Welcome to Wakeup Counseling!</h2>
+          <p>Please use the verification code below to complete your registration:</p>
+          <h1 style="color: #4A90E2; letter-spacing: 5px; background: #f4f4f4; padding: 15px; display: inline-block; border-radius: 5px;">${otp}</h1>
+          <p style="color: #666;">This code is valid for <strong>10 minutes</strong>. Do not share it with anyone.</p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: true, message: "OTP sent successfully to your email!" });
+
+  } catch (error) {
+    console.error("OTP Send Error:", error);
+    res.status(500).json({ success: false, message: "Failed to send OTP. Please check your email address." });
+  }
+};
+
+// ========================================================
+// 2. NEW: VERIFY OTP AND COMPLETE REGISTER
+// ========================================================
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: "Email and OTP are required" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found. Please sign up first." });
+    }
+
+    // Check karo OTP match ho raha hai ya nahi
+    if (user.otp !== otp) {
+      return res.status(400).json({ success: false, message: "Invalid OTP! Please try again." });
+    }
+
+    // Check karo OTP expire toh nahi hua
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({ success: false, message: "OTP has expired! Please request a new one." });
+    }
+
+    // Verification Sahi -> User ko verified mark karo, OTP clear karo
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+
+    // Direct Login (Cookie + Token bhejdo)
+    const token = generateToken(user._id);
+    res.status(200)
+      .cookie('token', token, getCookieOptions())
+      .json({ 
+        success: true, 
+        message: "Email verified successfully!", 
+        user 
+      });
+
+  } catch (error) {
+    console.error("OTP Verify Error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ========================================================
+// EXISTING REGISTER FUNCTION (Optional fallback ke liye)
+// ========================================================
 exports.register = async (req, res) => {
   try {
     const { fullName, email, password, phone, gender, dateOfBirth, address, occupation, emergencyContact } = req.body;
@@ -33,7 +169,8 @@ exports.register = async (req, res) => {
       dateOfBirth: dateOfBirth || null,
       address: address || '',
       occupation: occupation || '',
-      emergencyContact: emergencyContact || ''
+      emergencyContact: emergencyContact || '',
+      isVerified: true // Standard register route auto-verifies
     });
 
     const token = generateToken(user._id);
@@ -56,6 +193,11 @@ exports.login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
     
+    // Check karo agar email verify karna zaroori hai aur abhi tak nahi hua hai
+    if (!user.isVerified) {
+      return res.status(401).json({ success: false, message: 'Please verify your email address before logging in.' });
+    }
+
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
@@ -171,6 +313,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 // ==========================================
 // ADMIN: CLIENT MANAGEMENT FUNCTIONS
 // ==========================================
@@ -184,13 +327,10 @@ exports.getUserDetailsForAdmin = async (req, res) => {
     // Fetch user's bookings
     const bookings = await Booking.find({ userId: req.params.id }).sort({ createdAt: -1 });
     
-    // Agar tests ka feature chal raha hai toh ye line use karein:
-    // const tests = await Test.find({ userId: req.params.id });
-
     res.json({
       user,
       bookings,
-      tests: [], // Abhi ke liye empty bhej rahe hain
+      tests: [], 
       resources: user.resources || []
     });
   } catch (error) {
@@ -244,8 +384,6 @@ exports.deleteClientResource = async (req, res) => {
 exports.deleteClient = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
-    // Optional: Delete their bookings too
-    // await Booking.deleteMany({ userId: req.params.id });
     res.json({ message: 'Client deleted permanently' });
   } catch (error) {
     res.status(500).json({ message: 'Failed to delete client' });
