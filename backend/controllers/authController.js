@@ -8,8 +8,8 @@ const nodemailer = require('nodemailer'); // 👈 Nodemailer import kiya
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD
   }
 });
 
@@ -183,7 +183,6 @@ exports.register = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -193,9 +192,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
     
-    // Check karo agar email verify karna zaroori hai aur abhi tak nahi hua hai
+    // 👇 SIRF YEH EK LINE RAKHO: Agar kisine register karte waqt OTP daala hi nahi tha tabhi roko
     if (!user.isVerified) {
-      return res.status(401).json({ success: false, message: 'Please verify your email address before logging in.' });
+      return res.status(401).json({ success: false, message: 'Your email was not verified during registration. Please sign up again to verify.' });
     }
 
     const isMatch = await user.comparePassword(password);
@@ -205,7 +204,6 @@ exports.login = async (req, res) => {
     
     const token = generateToken(user._id);
     
-    // Attach token as an httpOnly cookie
     res.status(200)
       .cookie('token', token, getCookieOptions())
       .json({ success: true, user });
@@ -213,7 +211,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 // NEW: Logout function to clear the cookie
 exports.logout = async (req, res) => {
   try {
