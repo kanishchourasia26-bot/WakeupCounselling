@@ -25,7 +25,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   // Agar aapka backend URL alag hai toh yahan adjust kar lena (e.g., 'http://localhost:5000')
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://wakeupcounselling.onrender.com';
 
   const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }));
 
