@@ -39,19 +39,19 @@ async function startServer() {
   app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
   // --- API Routes ---
-  app.use('/api/auth', require('./routes/auth'));
-  app.use('/api/bookings', require('./routes/bookings'));
-  app.use('/api/slots', require('./routes/slots'));
-  app.use('/api/tests', require('./routes/tests'));
-  app.use('/api/notifications', require('./routes/notifications'));
-  app.use('/api/blogs', require('./routes/blogs'));
-  app.use('/api/resources', require('./routes/resources'));
-  app.use('/api/feedback', require('./routes/feedback'));
-  app.use('/api/contacts', require('./routes/contacts'));
-  app.use('/api/content', require('./routes/content'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/auth', require('./routes/auth'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/bookings', require('./routes/bookings'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/slots', require('./routes/slots'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/tests', require('./routes/tests'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/notifications', require('./routes/notifications'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/blogs', require('./routes/blogs'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/resources', require('./routes/resources'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/feedback', require('./routes/feedback'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/contacts', require('./routes/contacts'));
+  app.use('https://wakeup-counseling-backend.onrender.com/api/content', require('./routes/content'));
 
   // Health check
-  app.get('/api/health', (req, res) => {
+  app.get('https://wakeup-counseling-backend.onrender.com/api/health', (req, res) => {
     res.json({ success: true, message: 'Wake Up Counselling API is running' });
   });
 
@@ -74,7 +74,7 @@ async function startServer() {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    console.log(`API: http://localhost:${PORT}/api/health`);
+    console.log(`API: http://localhost:${PORT}https://wakeup-counseling-backend.onrender.com/api/health`);
   });
 }
 

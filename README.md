@@ -70,53 +70,53 @@ wakeup-counseling/
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login
-- `GET /api/auth/me` - Get current user
-- `PUT /api/auth/profile` - Update profile
-- `PUT /api/auth/change-password` - Change password
-- `POST /api/auth/forgot-password` - Request password reset
-- `POST /api/auth/reset-password` - Reset password
+- `POST https://wakeup-counseling-backend.onrender.com/api/auth/register` - Register new user
+- `POST https://wakeup-counseling-backend.onrender.com/api/auth/login` - Login
+- `GET https://wakeup-counseling-backend.onrender.com/api/auth/me` - Get current user
+- `PUT https://wakeup-counseling-backend.onrender.com/api/auth/profile` - Update profile
+- `PUT https://wakeup-counseling-backend.onrender.com/api/auth/change-password` - Change password
+- `POST https://wakeup-counseling-backend.onrender.com/api/auth/forgot-password` - Request password reset
+- `POST https://wakeup-counseling-backend.onrender.com/api/auth/reset-password` - Reset password
 
 ### Bookings
-- `POST /api/bookings` - Create booking
-- `GET /api/bookings/my` - User's bookings
-- `GET /api/bookings/:id` - Booking details
-- `PUT /api/bookings/:id/cancel` - Cancel booking
-- `PUT /api/bookings/:id/respond` - Accept/decline suggested slot
-- `GET /api/bookings` - All bookings (admin)
-- `PUT /api/bookings/:id/status` - Update status (admin)
-- `PUT /api/bookings/:id/suggest` - Suggest alternate slot (admin)
+- `POST https://wakeup-counseling-backend.onrender.com/api/bookings` - Create booking
+- `GET https://wakeup-counseling-backend.onrender.com/api/bookings/my` - User's bookings
+- `GET https://wakeup-counseling-backend.onrender.com/api/bookings/:id` - Booking details
+- `PUT https://wakeup-counseling-backend.onrender.com/api/bookings/:id/cancel` - Cancel booking
+- `PUT https://wakeup-counseling-backend.onrender.com/api/bookings/:id/respond` - Accept/decline suggested slot
+- `GET https://wakeup-counseling-backend.onrender.com/api/bookings` - All bookings (admin)
+- `PUT https://wakeup-counseling-backend.onrender.com/api/bookings/:id/status` - Update status (admin)
+- `PUT https://wakeup-counseling-backend.onrender.com/api/bookings/:id/suggest` - Suggest alternate slot (admin)
 
 ### Slots
-- `GET /api/slots` - Get available slots
-- `POST /api/slots` - Create slot (admin)
-- `GET /api/slots/holidays` - Get holidays
-- `POST /api/slots/holidays` - Block holiday (admin)
+- `GET https://wakeup-counseling-backend.onrender.com/api/slots` - Get available slots
+- `POST https://wakeup-counseling-backend.onrender.com/api/slots` - Create slot (admin)
+- `GET https://wakeup-counseling-backend.onrender.com/api/slots/holidays` - Get holidays
+- `POST https://wakeup-counseling-backend.onrender.com/api/slots/holidays` - Block holiday (admin)
 
 ### Psychological Tests
-- `GET /api/tests` - List tests
-- `GET /api/tests/:id` - Test details
-- `POST /api/tests/submit` - Submit test answers
-- `GET /api/tests/results/my` - User's results
-- `GET /api/tests/results/:id` - Result details
+- `GET https://wakeup-counseling-backend.onrender.com/api/tests` - List tests
+- `GET https://wakeup-counseling-backend.onrender.com/api/tests/:id` - Test details
+- `POST https://wakeup-counseling-backend.onrender.com/api/tests/submit` - Submit test answers
+- `GET https://wakeup-counseling-backend.onrender.com/api/tests/results/my` - User's results
+- `GET https://wakeup-counseling-backend.onrender.com/api/tests/results/:id` - Result details
 
 ### Content
-- `GET /api/content/banners` - Homepage banners
-- `GET /api/content/events` - Events/Services
-- `GET /api/content/workshops` - Workshops
-- `GET /api/content/gallery` - Gallery
-- `GET /api/content/testimonials` - Testimonials
-- `GET /api/content/faqs` - FAQs
-- `GET /api/content/cms/:key` - CMS content
-- `GET /api/content/site-details` - Site configuration
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/banners` - Homepage banners
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/events` - Events/Services
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/workshops` - Workshops
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/gallery` - Gallery
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/testimonials` - Testimonials
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/faqs` - FAQs
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/cms/:key` - CMS content
+- `GET https://wakeup-counseling-backend.onrender.com/api/content/site-details` - Site configuration
 
 ### Other
-- `POST /api/contacts` - Contact form
-- `GET /api/blogs` - Blog listing
-- `GET /api/resources` - Resources
-- `POST /api/feedback` - Submit feedback
-- `GET /api/notifications` - User notifications
+- `POST https://wakeup-counseling-backend.onrender.com/api/contacts` - Contact form
+- `GET https://wakeup-counseling-backend.onrender.com/api/blogs` - Blog listing
+- `GET https://wakeup-counseling-backend.onrender.com/api/resources` - Resources
+- `POST https://wakeup-counseling-backend.onrender.com/api/feedback` - Submit feedback
+- `GET https://wakeup-counseling-backend.onrender.com/api/notifications` - User notifications
 
 ## Environment Variables
 
@@ -264,7 +264,7 @@ Visit: http://localhost:5000
 
 4. **Test the API directly:**
    ```bash
-   curl http://localhost:5000/api/health
+   curl http://localhost:5000https://wakeup-counseling-backend.onrender.com/api/health
    # Should return: {"success":true,"message":"Wake Up Counselling API is running"}
    ```
 

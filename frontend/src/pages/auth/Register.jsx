@@ -51,7 +51,7 @@ export default function Register() {
     setLoading(true);
     try {
       // Backend ke send-otp route par data bhejo
-      const response = await axios.post(`${API_BASE_URL}/api/auth/send-otp`, {
+      const response = await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/send-otp`, {
         fullName: form.fullName,
         email: form.email,
         phone: form.phone,
@@ -86,7 +86,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/verify-otp`, {
+      const response = await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/verify-otp`, {
         email: form.email,
         otp: otp
       }, {
@@ -112,7 +112,7 @@ export default function Register() {
   const handleResendOTP = async () => {
     const toastId = toast.loading('Resending OTP...');
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/send-otp`, form);
+      await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/send-otp`, form);
       toast.success('New OTP sent to your email!', { id: toastId });
     } catch (err) {
       toast.error('Failed to resend OTP', { id: toastId });

@@ -134,18 +134,18 @@ You should see:
 ```
 Database connected successfully
 Server running on port 5000
-API: http://localhost:5000/api/health
+API: http://localhost:5000https://wakeup-counseling-backend.onrender.com/api/health
 ```
 
 ### 3. Test API Directly
 ```bash
-curl http://localhost:5000/api/health
+curl http://localhost:5000https://wakeup-counseling-backend.onrender.com/api/health
 # Should return: {"success":true,"message":"Wake Up Counselling API is running"}
 ```
 
 ### 4. Test Register
 ```bash
-curl -X POST http://localhost:5000/api/auth/register \
+curl -X POST http://localhost:5000https://wakeup-counseling-backend.onrender.com/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"fullName":"Test User","email":"test@example.com","password":"password123","phone":"1234567890"}'
 ```
@@ -161,7 +161,7 @@ Should return:
 
 ### 5. Test Login
 ```bash
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST http://localhost:5000https://wakeup-counseling-backend.onrender.com/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"password123"}'
 ```
