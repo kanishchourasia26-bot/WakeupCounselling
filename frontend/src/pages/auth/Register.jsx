@@ -120,28 +120,36 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-50 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-lg">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-200">
-              <span className="text-white font-bold text-xl">W</span>
-            </div>
-            <div className="text-left">
-              <span className="font-heading font-bold text-xl text-gray-900">Wake Up</span>
-              <span className="block text-xs text-teal-600 -mt-1">Counselling</span>
-            </div>
-          </Link>
-          <h1 className="font-heading text-2xl font-bold text-gray-900">
-            {step === 3 ? 'Verify Your Email' : 'Create Your Account'}
-          </h1>
-          <p className="text-gray-500 mt-1">
-            {step === 3 
-              ? `We've sent a 6-digit code to ${form.email}` 
-              : 'Start your journey to better mental health'}
-          </p>
+  <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-50 flex items-center justify-center px-4 py-12">
+  <div className="w-full max-w-lg">
+    {/* Logo */}
+    <div className="text-center mb-8">
+      <Link to="/" className="inline-flex items-center gap-3 mb-6">
+        
+        {/* 👇 YAHAN CHANGE KIYA HAI 👇 */}
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-teal-200 overflow-hidden bg-white">
+          <img 
+            src="/logo.png" 
+            alt="Wake Up Counselling Logo" 
+            className="w-full h-full object-contain"
+          />
         </div>
+        {/* 👆 ---------------------- 👆 */}
+
+        <div className="text-left">
+          <span className="font-heading font-bold text-xl text-gray-900">Wake Up</span>
+          <span className="block text-xs text-teal-600 -mt-1">Counselling</span>
+        </div>
+      </Link>
+      <h1 className="font-heading text-2xl font-bold text-gray-900">
+        {step === 3 ? 'Verify Your Email' : 'Create Your Account'}
+      </h1>
+      <p className="text-gray-500 mt-1">
+        {step === 3 
+          ? `We've sent a 6-digit code to ${form.email}` 
+          : 'Start your journey to better mental health'}
+      </p>
+    </div>
 
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-3 mb-8">
