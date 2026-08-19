@@ -129,7 +129,7 @@ export default function Register() {
         {/* 👇 YAHAN CHANGE KIYA HAI 👇 */}
         <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-teal-200 overflow-hidden bg-white">
           <img 
-            src="public/images/logo.png" 
+            src="/images/logo.png" 
             alt="Wake Up Counselling Logo" 
             className="w-full h-full object-contain"
           />
