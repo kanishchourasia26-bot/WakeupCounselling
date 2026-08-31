@@ -127,19 +127,15 @@ export default function Register() {
       <Link to="/" className="inline-flex items-center gap-3 mb-6">
         
         {/* 👇 YAHAN CHANGE KIYA HAI 👇 */}
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-teal-200 overflow-hidden bg-white">
+     
           <img 
             src="/images/logo.png" 
             alt="Wake Up Counselling Logo" 
             className="w-full h-full object-contain"
           />
-        </div>
+      
         {/* 👆 ---------------------- 👆 */}
 
-        <div className="text-left">
-          <span className="font-heading font-bold text-xl text-gray-900">Wake Up</span>
-          <span className="block text-xs text-teal-600 -mt-1">Counselling</span>
-        </div>
       </Link>
       <h1 className="font-heading text-2xl font-bold text-gray-900">
         {step === 3 ? 'Verify Your Email' : 'Create Your Account'}
