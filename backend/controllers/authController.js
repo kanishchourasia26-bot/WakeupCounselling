@@ -135,6 +135,7 @@ exports.verifyOtp = async (req, res) => {
       .json({ 
         success: true, 
         message: "Email verified successfully!", 
+        token,  // Frontend ke liye token bhi bhejo
         user 
       });
 
@@ -178,7 +179,7 @@ exports.register = async (req, res) => {
     // Attach token as an httpOnly cookie
     res.status(201)
       .cookie('token', token, getCookieOptions())
-      .json({ success: true, user });
+      .json({ success: true, token, user });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -206,7 +207,7 @@ exports.login = async (req, res) => {
     
     res.status(200)
       .cookie('token', token, getCookieOptions())
-      .json({ success: true, user });
+      .json({ success: true, token, user });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
-import axios from 'axios'; // API calls ke liye axios import kiya
+import API from '../../services/api';
 
 export default function Register() {
   const [step, setStep] = useState(1);
@@ -21,11 +21,8 @@ export default function Register() {
     emergencyContact: ''
   });
 
-  const { register } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
-
-  // Agar aapka backend URL alag hai toh yahan adjust kar lena (e.g., 'http://localhost:5000')
-  const API_BASE_URL = 'https://wakeupcounselling.onrender.com';
 
   const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }));
 
@@ -51,7 +48,7 @@ export default function Register() {
     setLoading(true);
     try {
       // Backend ke send-otp route par data bhejo
-      const response = await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/send-otp`, {
+      const response = await API.post('/auth/send-otp', {
         fullName: form.fullName,
         email: form.email,
         phone: form.phone,
@@ -86,17 +83,25 @@ export default function Register() {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/verify-otp`, {
+      const response = await API.post('/auth/verify-otp', {
         email: form.email,
         otp: otp
-      }, {
-        withCredentials: true // Cookie safe rakhne ke liye
       });
 
       if (response.data.success) {
+        // Store token and user in localStorage
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Update AuthContext
+        setUser(response.data.user);
+        
         toast.success('Email verified! Welcome aboard.');
-        // Page reload karke dashboard par bhejo taaki AuthContext updated user fetch kar le
-        window.location.href = '/dashboard';
+        
+        // Navigate to dashboard
+        navigate('/dashboard');
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Invalid or expired OTP. Please try again.';
@@ -112,7 +117,7 @@ export default function Register() {
   const handleResendOTP = async () => {
     const toastId = toast.loading('Resending OTP...');
     try {
-      await axios.post(`${API_BASE_URL}https://wakeup-counseling-backend.onrender.com/api/auth/send-otp`, form);
+      await API.post('/auth/send-otp', form);
       toast.success('New OTP sent to your email!', { id: toastId });
     } catch (err) {
       toast.error('Failed to resend OTP', { id: toastId });

@@ -6,11 +6,20 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 const API = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true // NEW: Automatically sends the httpOnly cookie with every request
+  withCredentials: true // Automatically sends the httpOnly cookie with every request
 });
 
-// REMOVED: The request interceptor is completely gone! 
-// The browser's native cookie management securely handles attaching the token now.
+// Request interceptor: add token from localStorage as fallback
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 // Response interceptor: handle auth errors
 API.interceptors.response.use(
@@ -20,7 +29,7 @@ API.interceptors.response.use(
       // Only clear auth state if we're on a protected page
       const path = window.location.pathname;
       if (path.startsWith('/dashboard') || path.startsWith('/admin')) {
-        // Token is no longer in localStorage, so we only need to clear the user data
+        localStorage.removeItem('token');
         localStorage.removeItem('user'); 
         window.location.href = '/login';
       }
