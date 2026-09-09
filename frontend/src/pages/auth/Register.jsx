@@ -134,7 +134,7 @@ export default function Register() {
             className="w-full h-full object-contain"
           />
       
-        {/* 👆 ---------------------- 👆 */}
+        {/* 👆 ----------------------------------- 👆 */}
 
       </Link>
       <h1 className="font-heading text-2xl font-bold text-gray-900">
