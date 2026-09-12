@@ -5,7 +5,7 @@ import PublicLayout from './layouts/PublicLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 import AdminLayout from './layouts/AdminLayout';
 //////////////////////
-// Public Pages
+// Public Pages like these
 import Home from './pages/public/Home';
 import About from './pages/public/About';
 import Mission from './pages/public/Mission';

@@ -28,7 +28,8 @@ const seed = async () => {
     email: 'admin@wakeupcounseling.com',
     password: 'Admin123@#$',
     phone: '+919876543210',
-    role: 'admin'
+    role: 'admin',
+    isVerified: true  // ✅ Email verification not required for seeded admin
   });
 
   // Create demo user
@@ -37,7 +38,8 @@ const seed = async () => {
     email: 'demo@example.com',
     password: 'Demo123456',
     phone: '+919876543211',
-    role: 'user'
+    role: 'user',
+    isVerified: true  // ✅ Email verification not required for seeded demo user
   });
 
   // Site details
